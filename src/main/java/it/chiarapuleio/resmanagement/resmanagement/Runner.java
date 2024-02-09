@@ -49,15 +49,19 @@ public class Runner implements CommandLineRunner {
         userSrv.save((User) ctx.getBean("user2"));
         userSrv.save((User) ctx.getBean("user3"));
         System.out.println("----- SAVE BOOKINGS -----");
+        //per evitare che la lista di prenotazioni sia null in partenza, ho effettuato il primo save/add senza particolari vincoli
         bookingSrv.save((Booking) ctx.getBean("book2"));
         Booking booked = (Booking) ctx.getBean("book2");
         booked.getWorkstation().getBookingStationList().add(booked);
 
 
+        //dal secondo save/add è necessario verificare una serie di condizioni prima di procedere
         try {
             Booking booking = (Booking) ctx.getBean("book1");
             List<Booking> bookingList = booking.getWorkstation().getBookingStationList();
             LocalDate bookedDate = booking.getBookedDate();
+            //isBookable confronta le date delle prenotazioni già presenti per una postazione
+            //maxUsers serve per verificare il limite di posti disponibili confrontandoli con il limite della postazione inserita
             boolean isBookable = booking.getWorkstation().getBookingStationList().stream().noneMatch(book -> book.getBookedDate().isEqual(bookedDate));
             long maxUsers = bookingSrv.getMaxUsers(booking.getWorkstation(), bookedDate);
             if (isBookable) {
@@ -70,7 +74,8 @@ public class Runner implements CommandLineRunner {
             } else {
                 throw new IllegalStateException("There's no room for you on this day. Please try another date or workstation.");
             }
-            booking.getWorkstation().getBookingStationList().add(booking);
+            //se, al termine di questi "controlli" risulta tutto true, allora la nuova prenotazione verrà aggiunta alla lista delle prenotazioni della postazione
+            bookingList.add(booking);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
