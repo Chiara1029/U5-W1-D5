@@ -44,8 +44,4 @@ public class UserService {
         userDAO.delete(found);
         System.out.println("User deleted.");
     }
-
-    public List<Workstation> findWorkstationByTypeAndCity(StationType stationType, String city){
-        return userDAO.findWorkstationByTypeAndCity(stationType, city);
-    }
 }

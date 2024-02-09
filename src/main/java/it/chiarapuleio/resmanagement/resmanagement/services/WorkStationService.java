@@ -2,6 +2,7 @@ package it.chiarapuleio.resmanagement.resmanagement.services;
 
 import it.chiarapuleio.resmanagement.resmanagement.dao.WorkstationDAO;
 import it.chiarapuleio.resmanagement.resmanagement.entities.Workstation;
+import it.chiarapuleio.resmanagement.resmanagement.enums.StationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,9 @@ public class WorkStationService {
         Workstation found = this.findById(workstationId);
         workstationDAO.delete(found);
         System.out.println("Workstation deleted.");
+    }
+
+    public List<Workstation> findWorkstationByTypeAndCity(StationType stationType, String city){
+        return workstationDAO.findWorkstationByTypeAndCity(stationType, city);
     }
 }
