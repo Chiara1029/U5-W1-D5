@@ -84,4 +84,5 @@ public class Runner implements CommandLineRunner {
         System.out.println("----- SEARCH BY STATIONTYPE AND CITY -----");
         System.out.println(workStationSrv.findWorkstationByTypeAndCity(StationType.PRIVATE, "Bernettabury"));
     }
+
 }
