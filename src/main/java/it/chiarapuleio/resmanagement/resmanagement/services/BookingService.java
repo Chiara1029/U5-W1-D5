@@ -2,9 +2,11 @@ package it.chiarapuleio.resmanagement.resmanagement.services;
 
 import it.chiarapuleio.resmanagement.resmanagement.dao.BookingDAO;
 import it.chiarapuleio.resmanagement.resmanagement.entities.Booking;
+import it.chiarapuleio.resmanagement.resmanagement.entities.Workstation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,5 +42,9 @@ public class BookingService {
         Booking found = this.findById(bookId);
         bookingDAO.delete(found);
         System.out.println("Book deleted.");
+    }
+
+    public long getMaxUsers(Workstation workstation, LocalDate bookedDate){
+        return bookingDAO.countByWorkingstationAndBookingDate(workstation, bookedDate);
     }
 }
