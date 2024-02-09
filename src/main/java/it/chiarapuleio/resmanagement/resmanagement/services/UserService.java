@@ -2,6 +2,8 @@ package it.chiarapuleio.resmanagement.resmanagement.services;
 
 import it.chiarapuleio.resmanagement.resmanagement.dao.UserDAO;
 import it.chiarapuleio.resmanagement.resmanagement.entities.User;
+import it.chiarapuleio.resmanagement.resmanagement.entities.Workstation;
+import it.chiarapuleio.resmanagement.resmanagement.enums.StationType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,9 @@ public class UserService {
         User found = this.findById(userId);
         userDAO.delete(found);
         System.out.println("User deleted.");
+    }
+
+    public List<Workstation> findWorkstationByTypeAndCity(StationType stationType, String city){
+        return userDAO.findWorkstationByTypeAndCity(stationType, city);
     }
 }

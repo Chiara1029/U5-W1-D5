@@ -4,6 +4,7 @@ import it.chiarapuleio.resmanagement.resmanagement.entities.Booking;
 import it.chiarapuleio.resmanagement.resmanagement.entities.Building;
 import it.chiarapuleio.resmanagement.resmanagement.entities.User;
 import it.chiarapuleio.resmanagement.resmanagement.entities.Workstation;
+import it.chiarapuleio.resmanagement.resmanagement.enums.StationType;
 import it.chiarapuleio.resmanagement.resmanagement.services.BookingService;
 import it.chiarapuleio.resmanagement.resmanagement.services.BuildingService;
 import it.chiarapuleio.resmanagement.resmanagement.services.UserService;
@@ -54,7 +55,6 @@ public class Runner implements CommandLineRunner {
         Booking booked = (Booking) ctx.getBean("book2");
         booked.getWorkstation().getBookingStationList().add(booked);
 
-
         //dal secondo save/add è necessario verificare una serie di condizioni prima di procedere
         try {
             Booking booking = (Booking) ctx.getBean("book1");
@@ -79,5 +79,9 @@ public class Runner implements CommandLineRunner {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
+
+        System.out.println("----- SEARCH BY STATIONTYPE AND CITY -----");
+        System.out.println(userSrv.findWorkstationByTypeAndCity(StationType.PRIVATE, "Bernettabury"));
     }
 }
