@@ -45,6 +45,6 @@ public class BookingService {
     }
 
     public long getMaxUsers(Workstation workstation, LocalDate bookedDate){
-        return bookingDAO.countByWorkingstationAndBookingDate(workstation, bookedDate);
+        return bookingDAO.countByWorkstationAndBookedDate(workstation, bookedDate);
     }
 }

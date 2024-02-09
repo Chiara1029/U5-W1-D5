@@ -9,5 +9,5 @@ import java.time.LocalDate;
 
 @Repository
 public interface BookingDAO extends JpaRepository<Booking, Long> {
-    long countByWorkingstationAndBookingDate(Workstation workingstation, LocalDate bookingDate);
+    long countByWorkstationAndBookedDate(Workstation workstation, LocalDate bookedDate);
 }

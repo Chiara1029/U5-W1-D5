@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,6 +29,7 @@ public class Building {
         this.name = name;
         this.address = address;
         this.city = city;
+        this.workstationList = new ArrayList<>();
     }
 
     @Override

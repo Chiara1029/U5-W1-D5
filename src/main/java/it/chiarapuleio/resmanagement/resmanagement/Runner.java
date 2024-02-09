@@ -10,8 +10,12 @@ import it.chiarapuleio.resmanagement.resmanagement.services.UserService;
 import it.chiarapuleio.resmanagement.resmanagement.services.WorkStationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.cglib.core.Local;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Component
 public class Runner implements CommandLineRunner {
@@ -45,7 +49,30 @@ public class Runner implements CommandLineRunner {
         userSrv.save((User) ctx.getBean("user2"));
         userSrv.save((User) ctx.getBean("user3"));
         System.out.println("----- SAVE BOOKINGS -----");
-        bookingSrv.save((Booking) ctx.getBean("book1"));
         bookingSrv.save((Booking) ctx.getBean("book2"));
+        Booking booked = (Booking) ctx.getBean("book2");
+        booked.getWorkstation().getBookingStationList().add(booked);
+
+
+        try {
+            Booking booking = (Booking) ctx.getBean("book1");
+            List<Booking> bookingList = booking.getWorkstation().getBookingStationList();
+            LocalDate bookedDate = booking.getBookedDate();
+            boolean isBookable = booking.getWorkstation().getBookingStationList().stream().noneMatch(book -> book.getBookedDate().isEqual(bookedDate));
+            long maxUsers = bookingSrv.getMaxUsers(booking.getWorkstation(), bookedDate);
+            if (isBookable) {
+                if (maxUsers < booking.getWorkstation().getMaxUsers()) {
+                    booking.getWorkstation().setFree(false);
+                    bookingSrv.save(booking);
+                } else {
+                    throw new IllegalStateException("There's no room for you on this day. Please try another date or workstation.");
+                }
+            } else {
+                throw new IllegalStateException("There's no room for you on this day. Please try another date or workstation.");
+            }
+            booking.getWorkstation().getBookingStationList().add(booking);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
