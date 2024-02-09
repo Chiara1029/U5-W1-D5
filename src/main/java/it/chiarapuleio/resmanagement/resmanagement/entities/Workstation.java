@@ -32,12 +32,12 @@ public class Workstation {
     @OneToMany(mappedBy = "workstation", cascade = CascadeType.ALL)
     private List<Booking> bookingStationList;
 
-    public Workstation(String description, StationType stationType, int maxUsers, Building building, boolean isFree) {
+    public Workstation(String description, StationType stationType, int maxUsers, Building building) {
         this.description = description;
         this.stationType = stationType;
         this.maxUsers = maxUsers;
         this.building = building;
-        this.isFree = isFree;
+        this.isFree = true;
     }
 
     @Override
